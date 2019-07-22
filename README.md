@@ -1,6 +1,10 @@
 This example is modified from mbed-os-example-cellular.
 
-Before build the example, please add the cellular device support in mbed_app.json.
+Before build the example, please notice
+
+1. If run SIM7020, please use Mbed-OS 5.13.1 and later.
+
+2. Add the cellular device support in mbed_app.json as below.
 
 For SIMCOM SIM7020, please add the first two configurations. The drivers.uart-serial-rxbuf-size should be MAX_PACKET_SIZE*2+100.
     "target_overrides": {
@@ -18,6 +22,8 @@ For QUECTEL BG96, please add the first three configurations.
             "target.network-default-interface-type": "CELLULAR",
 
 For other configurations, you can refer the original README content as below.
+
+3. Add the cellular network APN support in mbed_app.json.
 
 
 ====================================================================================================
