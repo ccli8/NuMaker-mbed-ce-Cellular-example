@@ -6,14 +6,14 @@ Before build the example, please notice
 
 2. Add the cellular device support in mbed_app.json as below.
 
-For SIMCOM SIM7020, please add the first two configurations. The drivers.uart-serial-rxbuf-size should be MAX_PACKET_SIZE*2+100.
+   For SIMCOM SIM7020, please add the first two configurations. The drivers.uart-serial-rxbuf-size should be MAX_PACKET_SIZE*2+100.
     "target_overrides": {
         "*": {
             "target.extra_labels_add": ["SIM7020"],
             "drivers.uart-serial-rxbuf-size": 4196,
             "target.network-default-interface-type": "CELLULAR",
 
-For QUECTEL BG96, please add the first three configurations.
+   For QUECTEL BG96, please add the first three configurations.
     "target_overrides": {
         "*": {
             "QUECTEL_BG96.provide-default": true,
@@ -21,9 +21,17 @@ For QUECTEL BG96, please add the first three configurations.
             "QUECTEL_BG96.rx": "D0",
             "target.network-default-interface-type": "CELLULAR",
 
-For other configurations, you can refer the original README content as below.
+   For QUECTEL EC2x, please add the first three configurations.
+    "target_overrides": {
+        "*": {
+            "GENERIC_AT3GPP.provide-default": true,
+            "GENERIC_AT3GPP.tx": "D1",
+            "GENERIC_AT3GPP.rx": "D0",
+            "target.network-default-interface-type": "CELLULAR",
 
 3. Add the cellular network APN support in mbed_app.json.
+
+For other configurations, you can refer the original README content as below.
 
 
 ====================================================================================================
