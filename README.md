@@ -28,6 +28,9 @@ Before build the example, please notice
             "GENERIC_AT3GPP.tx": "D1",
             "GENERIC_AT3GPP.rx": "D0",
             "target.network-default-interface-type": "CELLULAR",
+            ...
+            "lwip.ppp-enabled": true,
+            "lwip.tcp-enabled": true,
 
 3. Add the cellular network APN support in mbed_app.json.
 
