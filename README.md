@@ -2,9 +2,21 @@ This example is modified from mbed-os-example-cellular.
 
 Before build the example, please notice
 
-1. If run SIM7020, please use Mbed-OS 5.13.1 and later.
+1. For NB-IoT and Cat M1, please contact your service provider to get band information and use AT command to setup it.
 
-2. Add the cellular device support in mbed_app.json as below.
+   For Taiwan example, it uses the band 1, 3, 8 and 28, you can refer the AT command document to do it.
+   1a. In BG96 case, you need to type below AT command to set band.
+         AT+QCFG="band",0,8000085,8000085,1
+       And after first time to register network, you still need type below AT command to save information.
+         AT+CFUN=0
+   1b. In SIM7020 case, you need to type below AT command to set band.
+         AT+CBAND=1,3,8,28
+
+   For Taiwan's CHT ISP example, it uses the Band 8, you can only set band 8 active.
+
+2. If run SIM7020, please use Mbed-OS 5.13.1 and later.
+
+3. Add the cellular device support in mbed_app.json as below.
 
    For SIMCOM SIM7020, please add the first two configurations. The drivers.uart-serial-rxbuf-size should be MAX_PACKET_SIZE*2+100.
     "target_overrides": {
@@ -32,7 +44,7 @@ Before build the example, please notice
             "lwip.ppp-enabled": true,
             "lwip.tcp-enabled": true,
 
-3. Add the cellular network APN support in mbed_app.json.
+4. Add the cellular network APN support in mbed_app.json.
 
 For other configurations, you can refer the original README content as below.
 
