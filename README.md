@@ -14,7 +14,7 @@ Before build the example, please notice
 
    For Taiwan's CHT ISP example, it uses the Band 8, you can only set band 8 active.
 
-2. If run SIM7020, please use Mbed-OS 5.13.1 and later.
+2. If run SIM7020, please use Mbed-OS 5.15.0 and later.
 
 3. Add the cellular device support in mbed_app.json as below.
 
@@ -32,6 +32,9 @@ Before build the example, please notice
             "QUECTEL_BG96.tx": "D1",
             "QUECTEL_BG96.rx": "D0",
             "target.network-default-interface-type": "CELLULAR",
+            ...
+            "lwip.ppp-enabled": false,
+            "lwip.tcp-enabled": false,
 
    For QUECTEL EC2x, please add the first three configurations.
     "target_overrides": {
