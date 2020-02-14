@@ -227,6 +227,7 @@ int main()
 
     /* Attempt to connect to a cellular network */
     if (do_connect() == NSAPI_ERROR_OK) {
+        printf("IP Address is %s\r\n", iface->get_ip_address());
         retcode = test_send_recv();
     }
 
