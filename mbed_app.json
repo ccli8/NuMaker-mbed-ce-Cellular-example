@@ -38,12 +38,10 @@
             "ppp.ipv6-enabled": false
         },
         "NUMAKER_IOT_M487": {
-            "GENERIC_AT3GPP.provide-default": true,
             "GENERIC_AT3GPP.tx": "D1",
             "GENERIC_AT3GPP.rx": "D0"
         },
         "NUMAKER_IOT_M263A": {
-            "GENERIC_AT3GPP.provide-default": true,
             "GENERIC_AT3GPP.tx": "PE_14",
             "GENERIC_AT3GPP.rx": "PE_15"
         } 
