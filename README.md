@@ -22,8 +22,14 @@ Before build the example, please notice
     "target_overrides": {
         "*": {
             "target.extra_labels_add": ["SIM7020"],
+            "SIMCOM_SIM7020.provide-default": true,
+            "SIMCOM_SIM7020.tx": "D1",
+            "SIMCOM_SIM7020.rx": "D0",
             "drivers.uart-serial-rxbuf-size": 4196,
             "target.network-default-interface-type": "CELLULAR",
+            ...
+            "lwip.ppp-enabled": false,
+            "lwip.tcp-enabled": false,
 
    For QUECTEL BG96, please add the first three configurations.
     "target_overrides": {
