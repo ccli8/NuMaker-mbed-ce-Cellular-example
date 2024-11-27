@@ -1,4 +1,4 @@
-This example is modified from mbed-os-example-cellular.
+This example is modified from [mbed-os-example-cellular](https://github.com/ARMmbed/mbed-os-example-cellular).
 
 Before build the example, please notice
 
@@ -65,35 +65,54 @@ For other configurations, you can refer the original README content as below.
 
 This is an example based on `mbed-os` cellular APIs that demonstrates a TCP or UDP echo transaction with a public echo server.
 
-(Note: To see this example in a rendered form you can import into the Arm Mbed Online Compiler, please see [the documentation](https://os.mbed.com/docs/mbed-os/latest/apis/cellular-api.html#cellular-example-connection-establishment).)
-
 ## Getting started
 
 This particular cellular application uses a cellular network and network-socket APIs that are part of [`mbed-os`](https://github.com/ARMmbed/mbed-os).
 
-The program uses a [cellular modem driver](https://github.com/ARMmbed/mbed-os/tree/master/features/cellular/framework/API) using an external IP stack (LWIP) standard 3GPP AT 27.007 AT commands to setup the cellular modem and registers to the network.
+The program uses a [cellular modem driver](https://github.com/mbed-ce/mbed-os/tree/master/connectivity/cellular/include/cellular/framework/API) using an external IP stack (LWIP) standard 3GPP AT 27.007 AT commands to setup the cellular modem and registers to the network.
 
 After registration, the driver opens a point-to-point protocol (PPP) pipe using LWIP with the cellular modem and connects to internet. This driver currently supports UART data connection type only between your cellular modem and MCU.
 
 For more information on Arm Mbed OS cellular APIs and porting guide, please visit the [Mbed OS cellular API](https://os.mbed.com/docs/latest/reference/cellular.html) and [contributing documentation](https://os.mbed.com/docs/mbed-os/latest/contributing/index.html).
 
+> **ℹ️ Information**
+>
+> [Arm Mbed] is EOL'ing. The original document is adapted to
+> [Mbed Community Edition](https://github.com/mbed-ce).
+
+## Software requirements
+
+Use cmake-based build system.
+Check out [hello world example](https://github.com/mbed-ce/mbed-ce-hello-world) for getting started.
+
+> **⚠️ Warning**
+>
+> Legacy development tools below are not supported anymore.
+> - [Arm's Mbed Studio](https://os.mbed.com/docs/mbed-os/v6.15/build-tools/mbed-studio.html)
+> - [Arm's Mbed CLI 2](https://os.mbed.com/docs/mbed-os/v6.15/build-tools/mbed-cli-2.html)
+> - [Arm's Mbed CLI 1](https://os.mbed.com/docs/mbed-os/v6.15/tools/developing-mbed-cli.html)
+
+For [VS Code development](https://github.com/mbed-ce/mbed-os/wiki/Project-Setup:-VS-Code)
+or [OpenOCD as upload method](https://github.com/mbed-ce/mbed-os/wiki/Upload-Methods#openocd),
+install below additionally:
+
+-   [NuEclipse](https://github.com/OpenNuvoton/Nuvoton_Tools#numicro-software-development-tools): Nuvoton's fork of Eclipse
+-   Nuvoton forked OpenOCD: Shipped with NuEclipse installation package above.
+    Checking openocd version `openocd --version`, it should fix to `0.10.022`.
+
 ### Download the application
 
 ```sh
-$ mbed import mbed-os-example-cellular
-$ cd mbed-os-example-cellular
-
-#OR
-
-$ git clone git@github.com:ARMmbed/mbed-os-example-cellular.git
-$ cd mbed-os-example-cellular
+$ git clone https://github.com/mbed-nuvoton/NuMaker-mbed-ce-Cellular-example
+$ cd NuMaker-mbed-ce-Cellular-example
+$ git checkout -f master
 ```
 
 ### Change the network and SIM credentials
 
 See the file `mbed_app.json` in the root directory of your application. This file contains all the user specific configurations your application needs. Provide the pin code for your SIM card, as well as any APN settings if needed. For example:
 
-```json
+```json5
         "nsapi.default-cellular-plmn": 0,
         "nsapi.default-cellular-sim-pin": "\"1234\"",
         "nsapi.default-cellular-apn": 0,
@@ -107,7 +126,7 @@ See the file `mbed_app.json` in the root directory of your application. This fil
 You can choose which socket type the application should use; however, please note that TCP is a more reliable transmission protocol. For example:
 
 
-```json
+```json5
 
      "sock-type": "TCP",
 
@@ -117,7 +136,7 @@ You can choose which socket type the application should use; however, please not
 
 If you like details and wish to know about all the AT interactions between the modem and your driver, turn on the modem AT echo trace.
 
-```json
+```json5
         "cellular.debug-at": true
 ```
 
@@ -141,38 +160,32 @@ After you have defined `mbed-trace.enable: true`, you can set trace levels by ch
 
 ### Board support
 
-The [cellular modem driver](https://github.com/ARMmbed/mbed-os/tree/master/features/cellular/framework/API) in this example uses PPP with an Mbed-supported external IP stack. It supports targets when modem exists on the Mbed Enabled target as opposed to plug-in modules (shields). For more details, please see our [Mbed OS cellular documentation](https://os.mbed.com/docs/mbed-os/latest/apis/cellular-api.html).
+Mbed CE supports the in-tree [cellular modem drivers](https://github.com/mbed-ce/mbed-os/tree/master/connectivity/drivers/cellular).
 
-Currently supported boards with onboard modem chips are:
-
-[u-blox C027](https://os.mbed.com/platforms/u-blox-C027/)
-[MultiTech MTS Dragonfly](https://os.mbed.com/platforms/MTS-Dragonfly/)
-
+In the following, we take **NuMaker-PFM-NUC472** board as an example for Mbed CE support.
 
 ## Compiling the application
 
-The master branch is for daily development and it uses the latest mbed-os/master release.
-
-To use older versions update Mbed OS release tag, for example:
-
+Deploy necessary libraries
 ```
-mbed releases
- * mbed-os-5.10.4
-   ...
-mbed update mbed-os-5.10.4
+$ git submodule update --init
+```
+Or for fast install:
+```
+$ git submodule update --init --filter=blob:none
 ```
 
-You may need to use `--clean` option to discard your local changes (use with caution).
-
-Use Mbed CLI commands to generate a binary for the application. For example, in the case of GCC, use the following command:
-
-```sh
-$ mbed compile -m YOUR_TARGET_WITH_MODEM -t GCC_ARM
+Compile with cmake/ninja
+```
+$ mkdir build; cd build
+$ cmake .. -GNinja -DCMAKE_BUILD_TYPE=Develop -DMBED_TARGET=NUMAKER_PFM_NUC472
+$ ninja
+$ cd ..
 ```
 
 ## Running the application
 
-Drag and drop the application binary from `BUILD/YOUR_TARGET_WITH_MODEM/GCC_ARM/mbed-os-example-cellular.bin` to your Mbed Enabled target hardware, which appears as a USB device on your host machine.
+Flash by drag-n-drop built image `NuMaker-mbed-ce-Cellular-example.bin` or `NuMaker-mbed-ce-Cellular-example.hex` onto **NuMaker-PFM-NUC472** board
 
 Attach a serial console emulator of your choice (for example, PuTTY, Minicom or screen) to your USB device. Set the baudrate to 115200 bit/s, and reset your board by pressing the reset button.
 
